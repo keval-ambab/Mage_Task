@@ -1,0 +1,5 @@
+<?php if ($block->isMsgVisible()): ?>
+<div class="availability only" title="<?= /* @escapeNotVerified */ __('Only %1 item(s) left in stock', ($block->getStockQtyLeft())) ?>">
+<?= /* @escapeNotVerified */ __('Only %1 item(s) left in stock', "<strong>{$block->getStockQtyLeft()}</strong>") ?>
+</div>
+<?php endif ?>

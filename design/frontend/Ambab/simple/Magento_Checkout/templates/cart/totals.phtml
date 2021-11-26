@@ -1,0 +1,27 @@
+<div id="cart-totals" class="cart-totals" data-bind="scope:'block-totals'">
+    <!-- ko template: getTemplate() --><!-- /ko -->
+    <?php
+     $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        //  $miniAmt = $objectManager
+        //          ->get('Magento\Framework\App\Config\ScopeConfigInterface')
+        //          ->getValue('sales/minimum_order/amount');
+
+
+             $blockobj = $block->getLayout()->createBlock('Ambab\EmiCalculator\Block\Catalog\Product\Price');
+             $TotalPrice = $blockobj->getGrandTotal();
+             $miniAmt = $blockobj->getMinimumValue();
+             $balanceAmt = $miniAmt - $TotalPrice;
+    ?>
+        <?php if ($TotalPrice < $miniAmt) :?>
+        <p style="color:red;"><?= "To proceed kindly add item worth US$". $balanceAmt ." in your cart" ;?><br/></p>
+            <?php endif; ?>
+
+
+    <script type="text/x-magento-init">
+            {
+                "#cart-totals": {
+                    "Magento_Ui/js/core/app": <?= /* @noEscape */ $block->getJsLayout() ?>
+                }
+            }
+    </script>
+</div>
