@@ -13,8 +13,13 @@
  */
 ?>
 <?php
+
+$blockobj= $block->getLayout()->createBlock('Ambab\EmiCalculator\Block\Catalog\Product\Price');
 $_helper = $this->helper(Magento\Catalog\Helper\Output::class);
 $_product = $block->getProduct();
+
+$productId = $_product->getId();
+$productqty = $blockobj->getRemainingQty($productId);
 
 if (!$_product instanceof \Magento\Catalog\Model\Product) {
     return;
@@ -50,8 +55,18 @@ if ($_attributeType && $_attributeType == 'text') {
     <?php if ($renderLabel) :?>
         <strong class="type"><?= $block->escapeHtml($_attributeLabel) ?></strong>
     <?php endif; ?>
-    <div class="value" <?= /* @noEscape */ $_attributeAddAttribute ?>><?= /* @noEscape */ $_attributeValue ?></div>
+    <div class="value" <?= /* @noEscape / $_attributeAddAttribute ?>><?= / @noEscape */ $_attributeValue ?></div>
+
+    <?php 
+    if($_product->getHot()): ?>
+        <strong><br> <span class="hot"> This Is Hot Product</span></strong>
+    <?php endif; ?>
+    
+    <strong>
+        <br>
+        <span style="font-size: 20px; color: green;"><?= $productqty ?></span>
+        <span> Units left</span>
+    </strong>
+
 </div>
 <?php endif; ?>
-
-
