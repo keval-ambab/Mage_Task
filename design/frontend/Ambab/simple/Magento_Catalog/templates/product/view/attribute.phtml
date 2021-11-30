@@ -1,30 +1,17 @@
 <?php
-/**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
-
-// phpcs:disable Magento2.Templates.ThisInTemplate.FoundThis
-
-/**
- * Product view template
- *
- * @var $block \Magento\Catalog\Block\Product\View\Description
- */
-?>
-<?php
-
 $blockobj= $block->getLayout()->createBlock('Ambab\EmiCalculator\Block\Catalog\Product\Price');
 $_helper = $this->helper(Magento\Catalog\Helper\Output::class);
-$_product = $block->getProduct();
+$_product = $block->getProduct();            
+$sku = $_product->getSku();
+if($_product->getTypeId() == 'simple'){
+    $productqty = $blockobj->getProductSalableQty($sku);
+}
 
-$productId = $_product->getId();
-$productqty = $blockobj->getRemainingQty($productId);
+// $productqty = $blockobj->getProductSalableQty($sku);
 
 if (!$_product instanceof \Magento\Catalog\Model\Product) {
     return;
 }
-
 $_call = $block->getAtCall();
 $_code = $block->getAtCode();
 $_className = $block->getCssClass();
@@ -55,18 +42,18 @@ if ($_attributeType && $_attributeType == 'text') {
     <?php if ($renderLabel) :?>
         <strong class="type"><?= $block->escapeHtml($_attributeLabel) ?></strong>
     <?php endif; ?>
-    <div class="value" <?= /* @noEscape / $_attributeAddAttribute ?>><?= / @noEscape */ $_attributeValue ?></div>
-
-    <?php 
-    if($_product->getHot()): ?>
-        <strong><br> <span class="hot"> This Is Hot Product</span></strong>
-    <?php endif; ?>
-    
+    <div class="value" <?= /* @noEscape */ $_attributeAddAttribute ?>><?= /* @noEscape */ $_attributeValue ?></div>
+    <br>
     <strong>
-        <br>
-        <span style="font-size: 20px; color: green;"><?= $productqty ?></span>
-        <span> Units left</span>
-    </strong>
+        <?php if(isset($productqty)):?>
+            <span style="font-size: 15px;"><?= $productqty ?></span>
+            <span> Units left</span>
+        <?php endif;?>
+    </strong><br>
 
+    <?php if ($_product->gethotproduct()) : ?>
+        <span class="hot">This is 🔥 Product</span>
+    <?php endif; ?> 
 </div>
 <?php endif; ?>
+
