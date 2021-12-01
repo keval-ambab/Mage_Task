@@ -46,9 +46,15 @@ if ($_attributeType && $_attributeType == 'text') {
     <br>
     <strong>
         <?php if(isset($productqty)):?>
+            <?php if($productqty > 0):?>
             <span style="font-size: 15px;"><?= $productqty ?></span>
             <span> Units left</span>
+            <?php 
+        // else:?>
+            <!-- <span> Out Of Stock</span> -->
         <?php endif;?>
+    <?php endif;?>
+
     </strong><br>
 
     <?php if ($_product->gethotproduct()) : ?>
